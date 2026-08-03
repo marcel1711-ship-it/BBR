@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/book",
+      "destination": "https://api.leadconnectorhq.com/rentals/bbr-boat-rentals/rl/6a698430410c2552e9de60a3",
+      "permanent": false
+    }
+  ]
+}
