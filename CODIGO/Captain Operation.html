@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BBR Captain Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+:root{--teal:#3dbfbf;--teal2:#1f8f8f;--pale:#e8f9f9;--navy:#173a3a;--muted:#6c8f8f;--line:#dceeee;--ok:#178f69;--okbg:#eaf8f2;--warn:#b76e00;--warnbg:#fff7e8;--danger:#b42318;--dangerbg:#fef3f2}
+*{box-sizing:border-box}body{margin:0;padding:28px 16px;font-family:Inter,sans-serif;color:var(--navy);background:linear-gradient(115deg,rgba(31,143,143,.92),rgba(61,191,191,.63)),url('https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80&auto=format&fit=crop') center/cover fixed no-repeat}
+.app{width:min(100%,1180px);margin:auto;background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 24px 80px rgba(12,68,68,.23)}
+.top{display:flex;justify-content:space-between;gap:24px;padding:28px 34px;color:#fff;background:linear-gradient(135deg,var(--teal2),var(--teal))}
+.logo{font:900 38px/1 Montserrat,sans-serif}.logo small{display:block;margin-top:7px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.8}.top h1{margin:0;text-align:right;font:900 clamp(24px,4vw,38px)/1 Montserrat,sans-serif;text-transform:uppercase}.top p{margin:8px 0 0;text-align:right;font-size:12px;opacity:.8}
+.content{padding:30px 34px 40px}.banner{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:22px;padding:16px 18px;border:1px solid var(--line);border-radius:17px;background:#fbfefe}.banner strong{font:800 14px Montserrat,sans-serif}.banner span{display:block;margin-top:4px;color:var(--muted);font-size:12px}.pill{padding:9px 14px;border-radius:999px;background:var(--warnbg);color:var(--warn);font:800 11px Montserrat,sans-serif;text-transform:uppercase}.pill.ready{background:var(--okbg);color:var(--ok)}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px}.card{padding:15px;border:1px solid var(--line);border-radius:15px}.card span{display:block;margin-bottom:8px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.09em}.card strong{font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}.panel{padding:22px;border:1px solid var(--line);border-radius:20px;background:#fff}.panel+.panel{margin-top:18px}.head{display:flex;justify-content:space-between;gap:16px;margin-bottom:18px}.head h2{margin:0;font:800 18px Montserrat,sans-serif}.head p{margin:5px 0 0;color:var(--muted);font-size:12px;line-height:1.55}.count{padding:8px 11px;border-radius:999px;background:var(--pale);color:var(--teal2);font:800 12px Montserrat,sans-serif}
+.list{display:grid;gap:10px}.guest{display:flex;justify-content:space-between;gap:14px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fbfefe}.guestmain{display:flex;gap:11px}.icon{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--okbg);color:var(--ok);font-weight:900}.gname{font-weight:700}.gmeta{margin-top:3px;color:var(--muted);font-size:11px}.signed{color:var(--ok);font:800 10px Montserrat,sans-serif;text-transform:uppercase}.empty{padding:24px;text-align:center;border:1px dashed #bcdede;border-radius:14px;color:var(--muted);font-size:13px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.btn{min-height:42px;padding:10px 16px;border:0;border-radius:999px;cursor:pointer;font:800 11px Montserrat,sans-serif;text-transform:uppercase;letter-spacing:.06em}.btn:disabled{opacity:.55;cursor:not-allowed}.primary{color:#fff;background:var(--teal)}.secondary{color:var(--teal2);background:var(--pale)}.outline{color:var(--teal2);background:#fff;border:1px solid var(--line)}.danger{color:var(--danger);background:var(--dangerbg);border:1px solid #fecdca}
+.qrwrap{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center}.qr{display:grid;place-items:center;min-height:150px;padding:10px;border:1px solid var(--line);border-radius:16px}.link{margin-top:12px;padding:11px 12px;border-radius:12px;background:#f6fbfb;color:var(--teal2);font-size:11px;word-break:break-all}
+.checks{display:grid;gap:11px}.check{display:flex;gap:11px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fbfefe}.check input{width:19px;height:19px;accent-color:var(--teal)}.check strong{font-size:13px}.check span span{display:block;margin-top:3px;color:var(--muted);font-size:11px}.controls{display:grid;gap:11px;margin-top:18px}.controls .btn{width:100%;min-height:50px}.start{color:#fff;background:var(--teal)}.end{color:#fff;background:var(--navy)}
+.msg{display:none;margin-top:14px;padding:13px 14px;border-radius:13px;font-size:12px}.msg.ok{display:block;color:var(--ok);background:var(--okbg)}.msg.err{display:block;color:var(--danger);background:var(--dangerbg)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){body{padding:0}.app{min-height:100vh;border-radius:0}.top{padding:24px 20px}.content{padding:24px 17px}.summary{grid-template-columns:1fr}.qrwrap{grid-template-columns:1fr;text-align:center}.qr{width:170px;margin:auto}.toolbar{flex-direction:column}.toolbar .btn{width:100%}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="top">
+<div class="logo">BBR<small>Boat Rentals Miami</small></div>
+<div><h1>Captain Operations</h1><p>Pre-departure review and charter controls</p></div>
+</header>
+<div class="content">
+<section class="banner"><div><strong id="statusTitle">Captain review required</strong><span id="statusText">Review signed waivers and complete every boarding check before starting.</span></div><div id="statusPill" class="pill">Review pending</div></section>
+<section class="summary">
+<div class="card"><span>Vessel</span><strong id="vessel">—</strong></div>
+<div class="card"><span>Rental Date</span><strong id="rentalDate">—</strong></div>
+<div class="card"><span>Departure</span><strong id="startTime">—</strong></div>
+<div class="card"><span>Return</span><strong id="endTime">—</strong></div>
+<div class="card"><span>Primary Renter</span><strong id="primaryRenter">—</strong></div>
+<div class="card"><span>Reservation ID</span><strong id="bookingId">—</strong></div>
+</section>
+<section class="layout">
+<div>
+<section class="panel">
+<div class="head"><div><h2>Signed Guest Waivers</h2><p>Guests who submitted the digital waiver for this reservation.</p></div><div id="waiverCount" class="count">0</div></div>
+<div id="guestList" class="list"><div class="empty">No signed waivers loaded yet.</div></div>
+<div class="toolbar"><button id="refreshGuests" class="btn secondary">Refresh signed waivers</button></div>
+<div id="guestMsg" class="msg"></div>
+</section>
+<section class="panel">
+<div class="head"><div><h2>Guest Waiver Access</h2><p>Use the QR code at the marina or copy the link to send it directly.</p></div></div>
+<div class="qrwrap">
+<div id="qrCode" class="qr"></div>
+<div>
+<h3>Guest registration and waiver</h3>
+<p style="color:var(--muted);font-size:12px;line-height:1.6">Each passenger enters their own details before signing.</p>
+<div id="guestLink" class="link">—</div>
+<div class="toolbar"><button id="copyLink" class="btn outline">Copy guest link</button><button id="openLink" class="btn secondary">Open guest page</button></div>
+</div>
+</div>
+</section>
+</div>
+<div>
+<section class="panel">
+<div class="head"><div><h2>Boarding Checklist</h2><p>Every item must be confirmed before starting the charter.</p></div></div>
+<div class="checks">
+<label class="check"><input class="checkItem" type="checkbox" value="passenger_count_verified"><span><strong>Passenger count verified</strong><span>People present match the captain's count.</span></span></label>
+<label class="check"><input class="checkItem" type="checkbox" value="all_waivers_verified"><span><strong>All waivers verified</strong><span>Every person boarding appears in the signed list.</span></span></label>
+<label class="check"><input class="checkItem" type="checkbox" value="ids_checked"><span><strong>IDs checked</strong><span>Required identification has been reviewed.</span></span></label>
+<label class="check"><input class="checkItem" type="checkbox" value="safety_briefing_completed"><span><strong>Safety briefing completed</strong><span>Passengers received the required safety instructions.</span></span></label>
+<label class="check"><input class="checkItem" type="checkbox" value="balance_paid"><span><strong>Balance paid</strong><span>The remaining balance has been confirmed.</span></span></label>
+</div>
+<div class="controls">
+<button id="startCharter" class="btn start" disabled>Start Charter</button>
+<button id="endCharter" class="btn end" disabled>End Charter</button>
+<button id="cancelCharter" class="btn danger">Cancel Charter</button>
+</div>
+<div id="controlMsg" class="msg"></div>
+</section>
+</div>
+</section>
+</div>
+</main>
+<script>
+(()=>{
+"use strict";
+const LIST_SIGNED_WAIVERS_WEBHOOK="https://hook.us2.make.com/h1ntqz01gi8p3saks4fbz2soy6lgx4o4";
+const CHARTER_ACTION_WEBHOOK="PASTE_CHARTER_ACTION_WEBHOOK_HERE";
+const GUEST_REGISTRATION_PAGE="https://sites.leadconnectorhq.com/preview/LkUF2LldVvjLwUL2Oq38?notrack=true";
+const p=new URLSearchParams(location.search);
+const c=(...n)=>{for(const k of n){const v=p.get(k);if(v&&!v.includes("{{")&&v!=="undefined"&&v!=="null")return v.trim()}return""};
+const r={booking_id:c("booking_id","reservation_id"),boat:c("boat"),rental_date:c("date","rental_date"),start_time:c("start_time"),end_time:c("end_time"),primary_renter:c("primary_renter","renter"),deposit:c("deposit")};
+const st=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v||"—"};
+st("vessel",r.boat);st("rentalDate",r.rental_date);st("startTime",r.start_time);st("endTime",r.end_time);st("primaryRenter",r.primary_renter);st("bookingId",r.booking_id);
+const u=new URL(GUEST_REGISTRATION_PAGE);u.searchParams.set("notrack","true");u.searchParams.set("booking_id",r.booking_id);u.searchParams.set("boat",r.boat);u.searchParams.set("date",r.rental_date);u.searchParams.set("start_time",r.start_time);u.searchParams.set("end_time",r.end_time);u.searchParams.set("deposit",r.deposit);const guestUrl=u.toString();st("guestLink",guestUrl);
+new QRCode(document.getElementById("qrCode"),{text:guestUrl,width:128,height:128,correctLevel:QRCode.CorrectLevel.M});
+const msg=(id,t,type)=>{const e=document.getElementById(id);e.textContent=t;e.className="msg "+type};
+document.getElementById("copyLink").onclick=async()=>{try{await navigator.clipboard.writeText(guestUrl);msg("guestMsg","Guest link copied.","ok")}catch{msg("guestMsg","Could not copy the link.","err")}};
+document.getElementById("openLink").onclick=()=>window.open(guestUrl,"_blank","noopener");
+const esc=s=>String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+const render=guests=>{document.getElementById("waiverCount").textContent=guests.length;document.getElementById("guestList").innerHTML=guests.length?guests.map(g=>`<div class="guest"><div class="guestmain"><div class="icon">✓</div><div><div class="gname">${esc(g.full_name||((g.first_name||"")+" "+(g.last_name||"")).trim()||"Guest")}</div><div class="gmeta">${esc(g.email||"")} ${g.signed_at?"· "+esc(g.signed_at):""}</div></div></div><div class="signed">Signed</div></div>`).join(""):`<div class="empty">No signed guest waivers found for this reservation.</div>`};
+async function loadGuests(){if(LIST_SIGNED_WAIVERS_WEBHOOK.includes("PASTE_LIST")){render([]);msg("guestMsg","Signed-waiver connection not configured yet.","err");return}try{const res=await fetch(LIST_SIGNED_WAIVERS_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event_type:"captain_get_signed_waivers",booking_id:r.booking_id})});const data=await res.json();if(!res.ok||data.success===false)throw new Error(data.message||"Could not load signed waivers.");render(Array.isArray(data.guests)?data.guests:[])}catch(e){msg("guestMsg",e.message,"err")}}
+document.getElementById("refreshGuests").onclick=loadGuests;
+const checks=[...document.querySelectorAll(".checkItem")],start=document.getElementById("startCharter"),end=document.getElementById("endCharter");
+function checkState(){const ready=checks.every(x=>x.checked);start.disabled=!ready;document.getElementById("statusPill").textContent=ready?"Ready to start":"Review pending";document.getElementById("statusPill").classList.toggle("ready",ready);st("statusTitle",ready?"Pre-departure review complete":"Captain review required");st("statusText",ready?"All checks are confirmed. The charter may now be started.":"Review signed waivers and complete every boarding check before starting.")}
+checks.forEach(x=>x.onchange=checkState);
+async function action(name){if(CHARTER_ACTION_WEBHOOK.includes("PASTE_CHARTER")){msg("controlMsg","Charter action connection not configured yet.","err");return}const checklist=Object.fromEntries(checks.map(x=>[x.value,x.checked]));try{const res=await fetch(CHARTER_ACTION_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event_type:"captain_charter_action",action:name,booking_id:r.booking_id,boat:r.boat,rental_date:r.rental_date,start_time:r.start_time,end_time:r.end_time,primary_renter:r.primary_renter,checklist,submitted_at:new Date().toISOString()})});if(!res.ok)throw new Error("Action service returned "+res.status);if(name==="START_CHARTER"){start.disabled=true;end.disabled=false;checks.forEach(x=>x.disabled=true);msg("controlMsg","Charter started successfully.","ok")}if(name==="END_CHARTER"){end.disabled=true;msg("controlMsg","Charter completed successfully.","ok")}if(name==="CANCEL_CHARTER"){start.disabled=true;end.disabled=true;checks.forEach(x=>x.disabled=true);msg("controlMsg","Charter cancelled.","ok")}}catch(e){msg("controlMsg",e.message,"err")}}
+start.onclick=()=>{if(checks.every(x=>x.checked))action("START_CHARTER")};end.onclick=()=>confirm("Confirm that this charter has ended?")&&action("END_CHARTER");document.getElementById("cancelCharter").onclick=()=>confirm("Cancel this charter?")&&action("CANCEL_CHARTER");
+checkState();loadGuests();
+})();
+</script>
+</body>
+</html>

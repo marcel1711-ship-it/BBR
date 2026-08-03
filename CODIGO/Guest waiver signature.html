@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBR Guest Waiver Signature</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#3dbfbf;--teal-dark:#2ea8a8;--teal-pale:#e8f9f9;--text:#173a3a;--muted:#6c8f8f;--border:#dceeee;--danger:#b42318;--danger-bg:#fef3f2}
+*{box-sizing:border-box}body{margin:0;padding:28px 16px;font-family:Inter,sans-serif;color:var(--text);background:linear-gradient(115deg,rgba(31,143,143,.93),rgba(61,191,191,.65)),url('https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80&auto=format&fit=crop') center/cover fixed no-repeat}
+.shell{width:min(100%,1040px);margin:auto;background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 24px 80px rgba(12,68,68,.28)}
+.hero{display:flex;justify-content:space-between;gap:24px;padding:30px 36px;color:#fff;background:linear-gradient(135deg,#1f8f8f,var(--teal))}
+.logo{font:900 38px/1 Montserrat,sans-serif}.logo small{display:block;margin-top:7px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.78}.hero h1{margin:0;text-align:right;font:800 clamp(23px,4vw,35px)/1.05 Montserrat,sans-serif;text-transform:uppercase}
+.content{padding:34px 38px 42px}.notice{margin-bottom:24px;padding:15px 17px;border:1px solid rgba(61,191,191,.25);border-radius:16px;background:var(--teal-pale);font-size:13px}
+.details{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}.detail{padding:14px;border:1px solid var(--border);border-radius:14px;background:#fbfefe}.detail span{display:block;margin-bottom:6px;color:var(--muted);font-size:11px;text-transform:uppercase}.detail strong{display:block;font-size:14px;overflow-wrap:anywhere}
+.legal{font-size:13px;line-height:1.72}.legal section{margin-bottom:25px;padding-bottom:22px;border-bottom:1px solid #edf4f4}.legal h2{margin:0 0 11px;font:800 16px/1.3 Montserrat,sans-serif}.legal p{margin:7px 0}.legal ol{margin:8px 0 0;padding-left:22px}.legal li{margin:7px 0}
+.choice-group{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}.choice{display:flex;align-items:center;gap:8px;min-width:190px;padding:12px 14px;border:1px solid var(--border);border-radius:13px}.choice input{accent-color:var(--teal)}
+.acceptance{display:flex;gap:11px;margin:22px 0;padding:16px;border:1px solid var(--border);border-radius:15px;background:#fbfefe}.acceptance input{width:18px;height:18px;accent-color:var(--teal)}
+.signature-box{margin-top:18px;padding:18px;border:1px solid var(--border);border-radius:18px;background:#fbfefe}.canvas-wrap{height:210px;border:2px dashed #bcdede;border-radius:14px;background:#fff;touch-action:none;overflow:hidden}canvas{width:100%;height:100%;display:block;touch-action:none}
+.actions{display:flex;justify-content:flex-end;margin-top:10px}.secondary{padding:8px 16px;border:1px solid var(--border);border-radius:999px;background:#fff;color:#1f8f8f;font:700 11px Montserrat,sans-serif}.submit{width:100%;min-height:54px;margin-top:22px;border:0;border-radius:999px;background:var(--teal);color:#fff;font:800 13px Montserrat,sans-serif;text-transform:uppercase}.submit:disabled{opacity:.62}
+.message{display:none;margin-top:16px;padding:14px;border-radius:13px}.message.error{display:block;color:var(--danger);background:var(--danger-bg)}.message.success{display:block;color:#1f8f8f;background:var(--teal-pale)}
+@media(max-width:760px){body{padding:0}.shell{min-height:100vh;border-radius:0}.hero{padding:24px 20px}.hero h1{font-size:22px}.content{padding:25px 18px 34px}.details{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="hero"><div class="logo">BBR<small>Boat Rentals Miami</small></div><h1>Rental Agreement,<br>Liability Waiver & Assumption of Risk</h1></header>
+<div class="content">
+<div class="notice">Please review the agreement carefully. Your digital signature confirms that you have read, understood, and accepted the terms below.</div>
+<div class="details">
+<div class="detail"><span>Guest</span><strong id="guestName">Guest</strong></div>
+<div class="detail"><span>Email</span><strong id="guestEmail">—</strong></div>
+<div class="detail"><span>Phone</span><strong id="guestPhone">—</strong></div>
+<div class="detail"><span>Vessel</span><strong id="vessel">—</strong></div>
+<div class="detail"><span>Date</span><strong id="rentalDate">—</strong></div>
+<div class="detail"><span>Departure</span><strong id="startTime">—</strong></div>
+<div class="detail"><span>End Time</span><strong id="endTime">—</strong></div>
+<div class="detail"><span>Maximum Guests</span><strong>Up to 13</strong></div>
+<div class="detail"><span>Deposit Paid</span><strong id="deposit">30% reservation deposit</strong></div>
+</div>
+
+<article class="legal">
+<section><h2>1. BOOKING DETAILS</h2><p>Customer Name: <strong class="js-name">Guest</strong>. Email: <strong id="emailInline">—</strong>. Phone: <strong id="phoneInline">—</strong>. Vessel: <strong id="vesselInline">—</strong>. Date: <strong id="dateInline">—</strong>. Start Time: <strong id="startInline">—</strong>. End Time: <strong id="endInline">—</strong>. Number of Guests: Up to 13. Deposit Paid (30%): <strong id="depositInline">30% reservation deposit</strong>. Balance Due (70%): Due before boarding at the marina.</p></section>
+<section><h2>2. PAYMENT TERMS</h2><ol type="a"><li>A non-refundable deposit of 30% of the total rental amount confirms your reservation.</li><li>The remaining 70% balance must be paid before boarding on the day of the rental. Accepted: cash, credit card, or debit card.</li><li>Failure to pay the balance before boarding may result in cancellation without refund of the deposit.</li></ol></section>
+<section><h2>3. CANCELLATION POLICY</h2><ol type="a"><li>More than 72 hours before rental: deposit applied as credit for a future rental within 90 days.</li><li>Within 72 hours of rental: deposit is forfeited and non-refundable.</li><li>No-show: full deposit is forfeited.</li><li>Weather cancellation initiated by BBR: full credit or rescheduling at no additional charge.</li></ol></section>
+<section><h2>4. RULES & REGULATIONS ON BOARD</h2><p>By signing this agreement, <strong class="js-name">Guest</strong> agrees to the following rules for all guests in their party:</p><ol type="a"><li>Maximum vessel capacity must not be exceeded at any time.</li><li>All guests must wear life jackets when required by the captain.</li><li>No swimming from the vessel unless anchored in a safe area and approved by the captain.</li><li>Alcohol is permitted in moderation. No visibly intoxicated guests will be allowed on board.</li><li>No illegal substances are permitted on board.</li><li>The captain's decisions are final regarding safety and navigation.</li><li>All guests must arrive at Bayside Marina, Miami, FL at least 10 minutes before the scheduled departure time.</li><li>No smoking inside the vessel. Designated smoking areas on deck only.</li></ol></section>
+<section><h2>5. LIABILITY WAIVER & ASSUMPTION OF RISK</h2><p>I, <strong class="js-name">Guest</strong>, acknowledge that boating activities involve inherent risks including but not limited to drowning, injury, illness, property damage, and death. I voluntarily assume all risks associated with this rental activity.</p><p>I hereby release, waive, discharge, and covenant not to sue BBR Boat Rentals Miami, its owners, officers, agents, employees, and representatives from any and all liability, claims, demands, actions, or causes of action arising out of or related to any loss, damage, injury, or death that may occur during the rental period.</p><p>I confirm that all guests in my party have been informed of and agree to these terms. I accept full responsibility for the conduct and safety of all guests in my party.</p></section>
+<section><h2>6. DAMAGE POLICY</h2><p><strong class="js-name">Guest</strong> is responsible for any damage to the vessel or equipment caused by negligence or misuse during the rental period. BBR Boat Rentals Miami reserves the right to charge the payment method on file for any repair costs incurred.</p></section>
+<section><h2>7. PHOTO & MEDIA CONSENT</h2><p>I consent to BBR Boat Rentals Miami using photos or videos taken during my rental for marketing purposes on social media and website.</p><div class="choice-group"><label class="choice"><input type="radio" name="photoConsent" value="yes"> YES, I consent</label><label class="choice"><input type="radio" name="photoConsent" value="no"> NO, I do not consent</label></div></section>
+<section><h2>8. AGREEMENT & DIGITAL SIGNATURE</h2><p>By signing below, <strong class="js-name">Guest</strong>, I confirm that I have read, understood, and agree to all terms and conditions of this Rental Agreement and Liability Waiver for my rental on <strong id="agreementDate">—</strong>.</p>
+<label class="acceptance"><input id="acceptTerms" type="checkbox"><span>I have read and agree to the complete Rental Agreement, Liability Waiver and Assumption of Risk.</span></label>
+<div class="signature-box"><h3>Digital signature</h3><p>Sign inside the box using your finger, mouse, or trackpad.</p><div class="canvas-wrap"><canvas id="signatureCanvas"></canvas></div><div class="actions"><button id="clearSignature" class="secondary" type="button">Clear signature</button></div><p>Signed on: <strong id="signedOn"></strong></p></div>
+<button id="submitWaiver" class="submit" type="button">Sign and submit waiver</button>
+<div id="message" class="message"></div>
+</section>
+</article>
+</div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  /*
+   * IMPORTANT:
+   * Create a SECOND Custom Webhook in Make for signed waivers
+   * and paste that URL below.
+   */
+  const SIGNED_WAIVER_WEBHOOK_URL =
+    "https://hook.us2.make.com/o1sb4lbuaitmg8fng4wxm2hsd2psdw1t";
+
+  const WAIVER_VERSION = "BBR-GUEST-WAIVER-2026-07-31";
+  const params = new URLSearchParams(window.location.search);
+
+  const cleanParam = (...names) => {
+    for (const name of names) {
+      const raw = params.get(name);
+
+      if (
+        raw &&
+        !raw.includes("{{") &&
+        raw.toLowerCase() !== "undefined" &&
+        raw.toLowerCase() !== "null"
+      ) {
+        return raw.trim();
+      }
+    }
+
+    return "";
+  };
+
+  const data = {
+    contact_id: cleanParam("contact_id"),
+    booking_id: cleanParam("booking_id", "reservation_id"),
+    first_name: cleanParam("first_name"),
+    last_name: cleanParam("last_name"),
+    email: cleanParam("email"),
+    phone: cleanParam("phone"),
+    boat: cleanParam("boat"),
+    rental_date: cleanParam("date", "rental_date"),
+    start_time: cleanParam("start_time"),
+    end_time: cleanParam("end_time"),
+    deposit: cleanParam("deposit")
+  };
+
+  const fullName =
+    `${data.first_name} ${data.last_name}`.trim() || "Guest";
+
+  const setText = (id, value, fallback = "—") => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value || fallback;
+  };
+
+  document
+    .querySelectorAll(".js-name")
+    .forEach((element) => {
+      element.textContent = fullName;
+    });
+
+  [
+    ["guestName", fullName],
+    ["guestEmail", data.email],
+    ["guestPhone", data.phone],
+    ["vessel", data.boat],
+    ["rentalDate", data.rental_date],
+    ["startTime", data.start_time],
+    ["endTime", data.end_time],
+    ["deposit", data.deposit, "30% reservation deposit"],
+    ["emailInline", data.email],
+    ["phoneInline", data.phone],
+    ["vesselInline", data.boat],
+    ["dateInline", data.rental_date],
+    ["startInline", data.start_time],
+    ["endInline", data.end_time],
+    ["depositInline", data.deposit, "30% reservation deposit"],
+    ["agreementDate", data.rental_date]
+  ].forEach(([id, value, fallback]) => {
+    setText(id, value, fallback);
+  });
+
+  const signedOnElement = document.getElementById("signedOn");
+
+  const formatSignedDate = () =>
+    new Date().toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    });
+
+  signedOnElement.textContent = formatSignedDate();
+
+  const canvas = document.getElementById("signatureCanvas");
+  const context = canvas.getContext("2d");
+
+  let isDrawing = false;
+  let hasSignature = false;
+
+  const configureContext = () => {
+    context.lineWidth = 2.2;
+    context.lineCap = "round";
+    context.lineJoin = "round";
+    context.strokeStyle = "#173a3a";
+  };
+
+  const resizeCanvas = () => {
+    const rect = canvas.getBoundingClientRect();
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+
+    const savedSignature = hasSignature
+      ? canvas.toDataURL("image/png")
+      : null;
+
+    canvas.width = Math.floor(rect.width * ratio);
+    canvas.height = Math.floor(rect.height * ratio);
+
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    configureContext();
+
+    if (savedSignature) {
+      const image = new Image();
+      image.onload = () => {
+        context.drawImage(image, 0, 0, rect.width, rect.height);
+      };
+      image.src = savedSignature;
+    }
+  };
+
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  const getPoint = (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const source = event.touches
+      ? event.touches[0]
+      : event;
+
+    return {
+      x: source.clientX - rect.left,
+      y: source.clientY - rect.top
+    };
+  };
+
+  const startDrawing = (event) => {
+    event.preventDefault();
+    isDrawing = true;
+
+    const point = getPoint(event);
+
+    context.beginPath();
+    context.moveTo(point.x, point.y);
+  };
+
+  const draw = (event) => {
+    if (!isDrawing) return;
+
+    event.preventDefault();
+
+    const point = getPoint(event);
+
+    context.lineTo(point.x, point.y);
+    context.stroke();
+
+    hasSignature = true;
+  };
+
+  const stopDrawing = (event) => {
+    if (event) event.preventDefault();
+
+    isDrawing = false;
+    context.closePath();
+  };
+
+  canvas.addEventListener("mousedown", startDrawing);
+  canvas.addEventListener("mousemove", draw);
+  window.addEventListener("mouseup", stopDrawing);
+
+  canvas.addEventListener("touchstart", startDrawing, {
+    passive: false
+  });
+
+  canvas.addEventListener("touchmove", draw, {
+    passive: false
+  });
+
+  canvas.addEventListener("touchend", stopDrawing, {
+    passive: false
+  });
+
+  document
+    .getElementById("clearSignature")
+    .addEventListener("click", () => {
+      const rect = canvas.getBoundingClientRect();
+
+      context.clearRect(
+        0,
+        0,
+        rect.width,
+        rect.height
+      );
+
+      hasSignature = false;
+    });
+
+  const message = document.getElementById("message");
+  const submitButton = document.getElementById("submitWaiver");
+
+  const showMessage = (text, type) => {
+    message.textContent = text;
+    message.className = `message ${type}`;
+  };
+
+  const clearMessage = () => {
+    message.textContent = "";
+    message.className = "message";
+  };
+
+  submitButton.addEventListener("click", async () => {
+    clearMessage();
+
+    const photoConsent = document.querySelector(
+      'input[name="photoConsent"]:checked'
+    );
+
+    if (!data.booking_id) {
+      showMessage(
+        "The reservation ID is missing. Please reopen the original guest waiver link.",
+        "error"
+      );
+      return;
+    }
+
+    if (!data.contact_id) {
+      showMessage(
+        "The guest contact ID is missing. Please restart the guest registration.",
+        "error"
+      );
+      return;
+    }
+
+    if (!photoConsent) {
+      showMessage(
+        "Please select your photo and media consent preference.",
+        "error"
+      );
+      return;
+    }
+
+    if (!document.getElementById("acceptTerms").checked) {
+      showMessage(
+        "Please confirm that you have read and accepted the agreement.",
+        "error"
+      );
+      return;
+    }
+
+    if (!hasSignature) {
+      showMessage(
+        "Please provide your digital signature before submitting.",
+        "error"
+      );
+      return;
+    }
+
+    if (
+      !SIGNED_WAIVER_WEBHOOK_URL ||
+      SIGNED_WAIVER_WEBHOOK_URL.includes("PASTE_SIGNED")
+    ) {
+      showMessage(
+        "The completed-waiver connection has not been configured.",
+        "error"
+      );
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitting waiver…";
+
+    try {
+      const payload = {
+        event_type: "guest_waiver_signed",
+        waiver_version: WAIVER_VERSION,
+        contact_id: data.contact_id,
+        rental_booking_id: data.booking_id,
+        booking_id: data.booking_id,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        full_name: fullName,
+        email: data.email,
+        phone: data.phone,
+        boat: data.boat,
+        rental_date: data.rental_date,
+        start_time: data.start_time,
+        end_time: data.end_time,
+        deposit: data.deposit,
+        photo_media_consent: photoConsent.value,
+        accepted_terms: true,
+        signature_data_url: canvas.toDataURL("image/png"),
+        signed_at: new Date().toISOString(),
+        signed_on_display: formatSignedDate(),
+        user_agent: navigator.userAgent,
+        language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        page_url: window.location.href
+      };
+
+      const response = await fetch(
+        SIGNED_WAIVER_WEBHOOK_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "tapplication/json"
+          },
+          body: JSON.stringify(payload)
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `The waiver service returned status ${response.status}.`
+        );
+      }
+
+      showMessage(
+        "Your waiver has been signed successfully. You may now close this page.",
+        "success"
+      );
+
+      submitButton.textContent = "Waiver submitted";
+      submitButton.disabled = true;
+
+      canvas.style.pointerEvents = "none";
+      document.getElementById("clearSignature").disabled = true;
+      document.getElementById("acceptTerms").disabled = true;
+
+      document
+        .querySelectorAll('input[name="photoConsent"]')
+        .forEach((input) => {
+          input.disabled = true;
+        });
+
+    } catch (error) {
+      console.error(error);
+
+      submitButton.disabled = false;
+      submitButton.textContent = "Sign and submit waiver";
+
+      showMessage(
+        error?.message ||
+        "We could not submit your waiver. Please try again.",
+        "error"
+      );
+    }
+  });
+})();
+</script>
+</body>
+</html>
